@@ -1,0 +1,24 @@
+plugin 'cocoapods-binary'
+
+use_frameworks!
+target 'ios-binary-framework_Example' do
+  pod 'ios-binary-framework', :path => '../'
+  pod 'Charts'
+  pod 'SnapKit'
+  pod 'Crashlytics'
+  pod 'FirebaseAnalytics'
+  
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+      end
+    end
+  end
+  
+  target 'ios-binary-framework_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase' , '~> 2.1.4'
+  end
+end
